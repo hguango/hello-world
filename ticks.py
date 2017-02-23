@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 
+
+
+
 """命令行火车票查看器
 
 Usage:
@@ -25,6 +28,8 @@ import pprint
 import prettytable
 import colorama
 from stations import stations
+
+
 def cli():
 
     """command-line interface """
@@ -33,17 +38,12 @@ def cli():
     from_station = stations.get(arguments['<from>'])
     to_station = stations.get(arguments['<to>'])
     date = arguments['<date>']
-   # print from_station,to_station,date
-  #  url='https://kyfw.12306.cn/otn/leftTicket/query?leftTicketDTO.train_date={}\&leftTicketDTO.from_station={}&leftTicketDTO.to_station={}&purpose_codes=ADULT'.format(date, from_station, to_station)
     url = 'https://kyfw.12306.cn/otn/leftTicket/query?\
-leftTicketDTO.train_date={}&leftTicketDTO.from_station={}&leftTicketDTO.to_station={}&purpose_codes=ADULT'.format(date, from_station, to_station) 
+leftTicketDTO.train_date={}&leftTicketDTO.from_station={}\
+&leftTicketDTO.to_station={}&purpose_codes=ADULT'.format(date, from_station, to_station) 
     
-    #url = 'https://kyfw.12306.cn/otn/lcxxcx/query?purpose_codes=ADULT&queryDate={}&from_station={}&to_station={}'.format(date, from_station, to_station)
     r= requests.get(url,verify=False)
-  #  print r.json()
-    
     available_trains = r.json()['data']
-
     options = ''.join([
         key for key, value in arguments.items() if value is True
     ])
@@ -51,21 +51,13 @@ leftTicketDTO.train_date={}&leftTicketDTO.from_station={}&leftTicketDTO.to_stati
     TrainsCollection(available_trains, options).pretty_print()
     
     
-#    for raw_train in available_trains: 
-#        raw_train = raw_train.get('queryLeftNewDTO') 
-#        if raw_train is not None and raw_train != '': 
-#            train_no = raw_train['station_train_code'] 
-#            initial = train_no[0].lower() 
-#            
-#            print raw_train
-        #    if not self.options or initial in self.options:   
-    
+####取得火车站的信息，只需运行一次，重定向到stations.py里######################################    
    
 #url = 'https://kyfw.12306.cn/otn/resources/js/framework/station_name.js?station_version=1.8971'
 #response = requests.get(url,verify=False)
 #stations = re.findall(u'([\u4e00-\u9fa5]+)\|([A-Z]+)',response.text)
 ##pprint.pprint(dict(stations),indent=4)
-    
+#####################################################################    
   
 class TrainsCollection:
     
